@@ -112,19 +112,6 @@
         <div class="label">今日からできること</div>
         <div id="pres" style="line-height:1.9"></div>
       </div>
-      <div class="card" style="background:#F8F4F1">
-        <div class="label">次に読むなら</div>
-        <div style="font-weight:700;line-height:1.7;margin-bottom:8px">職場のしんどさが見えたあとに、土台の疲れ方や、疲れが伝わりにくい癖まで見ると、対処の方向がかなりはっきりします。</div>
-        <div class="sub" style="line-height:1.8;margin-bottom:14px">「仕事の問題」だけでなく、「自分の疲れ方」や「伝え方の癖」まで続けて見るのがおすすめです。</div>
-        <a href="https://shindan-lab.github.io/tsukare-karte/" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E8D5CE;border-radius:14px;padding:14px 16px;margin-bottom:10px">
-          <div style="font-weight:700;margin-bottom:4px">疲れのカルテ</div>
-          <div class="sub">仕事以外も含めて、自分がどんな疲れ方をしやすいかを広く見たいときに。</div>
-        </a>
-        <a href="https://shindan-lab.github.io/tsutawaranai-tsukare/" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E8D5CE;border-radius:14px;padding:14px 16px">
-          <div style="font-weight:700;margin-bottom:4px">伝わらない疲れ診断</div>
-          <div class="sub">しんどいのに職場でうまく伝わらない感覚があるときに。</div>
-        </a>
-      </div>
       <div id="aff" class="card hide">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
           <div class="label" style="margin-bottom:0">もし気になったら</div>
@@ -140,7 +127,7 @@
         <a id="sx" target="_blank" rel="noopener noreferrer">Xでシェア</a>
         <a id="st" target="_blank" rel="noopener noreferrer">Threadsでシェア</a>
       </div>
-      <button class="btn" style="margin-top:12px;background:#fff;color:#7A5C52;border:1px solid #E8D5CE" onclick="resetQuiz()">もう一度診断する</button>
+      <button class="btn" style="margin-top:12px;background:#fff;color:#7A5C52;border:1px solid #E8D5CE" onclick="location.href='https://shindan-lab.github.io/'">他の診断もやってみる</button>
     </section>
 
     <footer class="site-footer">
@@ -354,24 +341,6 @@ function share(main) {
 function ensureDynamicBlocks() {
   const affCard = document.getElementById('aff');
 
-  if (!document.getElementById('next-card-dynamic')) {
-    const existingNext = affCard.previousElementSibling && affCard.previousElementSibling.classList.contains('card')
-      ? affCard.previousElementSibling
-      : null;
-    const next = existingNext || document.createElement('div');
-    next.id = 'next-card-dynamic';
-    next.className = 'card';
-    next.style.background = '#F8F4F1';
-    next.innerHTML = `
-      <div class="label">次に読むなら</div>
-      <div id="next-lead" style="font-weight:700;line-height:1.7;margin-bottom:8px"></div>
-      <div id="next-links"></div>
-    `;
-    if (!existingNext) {
-      affCard.insertAdjacentElement('beforebegin', next);
-    }
-  }
-
   if (!document.getElementById('affnote')) {
     const note = document.createElement('div');
     note.id = 'affnote';
@@ -379,17 +348,6 @@ function ensureDynamicBlocks() {
     note.style.marginBottom = '12px';
     affCard.insertBefore(note, document.getElementById('afflink'));
   }
-}
-
-function renderNext(main) {
-  const next = NEXT[main];
-  document.getElementById('next-lead').textContent = next.lead;
-  document.getElementById('next-links').innerHTML = next.items.map((item) => `
-    <a href="${item.url}" style="display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #E8D5CE;border-radius:14px;padding:14px 16px;margin-top:10px">
-      <div style="font-weight:700;margin-bottom:4px">${item.title}</div>
-      <div class="sub">${item.desc}</div>
-    </a>
-  `).join('');
 }
 
 let i = 0;
@@ -457,8 +415,6 @@ function show() {
 
   document.getElementById('letter').textContent = main[3];
   document.getElementById('pres').textContent = main[4];
-  renderNext(result.main);
-
   const affiliate = (
     typeof affiliateData !== 'undefined' &&
     affiliateData &&
